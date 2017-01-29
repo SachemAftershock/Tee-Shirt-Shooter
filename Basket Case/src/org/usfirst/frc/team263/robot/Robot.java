@@ -23,6 +23,7 @@ public class Robot extends SampleRobot {
 	Solenoid leftCannon, rightCannon;
 	XboxController drivePad;
 	Timer leftTimer, rightTimer;
+	boolean safetyOn;
 	
 	public Robot() {
 		backLeft = new CANTalon(3);
@@ -37,6 +38,7 @@ public class Robot extends SampleRobot {
 		leftTimer = new Timer();
 		rightTimer = new Timer();
 		LEDStrip.sendColor(LEDStrip.LEDMode.eRainbow);
+		safetyOn = false;
 	}
 
 	@Override
@@ -57,17 +59,23 @@ public class Robot extends SampleRobot {
 			// Have X Button as a safety
 			// If X is pressed, use left and right bumpers to set off cannons
 			if (drivePad.getXButton()) {
-				LEDStrip.sendColor(LEDStrip.LEDMode.eRed);
+				safetyOn = true;
 				if (drivePad.getBumper(Hand.kLeft)) {
 					leftCannon.set(true);
 					leftTimer.start();
-					LEDStrip.sendColor(LEDStrip.LEDMode.eRainbow);
 				} 
 				if (drivePad.getBumper(Hand.kRight)) {
 					rightCannon.set(true);
 					rightTimer.start();
-					LEDStrip.sendColor(LEDStrip.LEDMode.eRainbow);
 				}
+			} else {
+				safetyOn = false;
+			}
+			
+			if (safetyOn) {
+				LEDStrip.sendColor(LEDStrip.LEDMode.eRed);
+			} else {
+				LEDStrip.sendColor(LEDStrip.LEDMode.eRainbow);
 			}
 		}
 	}

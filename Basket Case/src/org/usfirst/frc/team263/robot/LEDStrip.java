@@ -12,6 +12,7 @@ public class LEDStrip {
 	private static final int ARDUINO_I2C_ADDRESS = 10;
 	private static I2C i2c = new I2C(I2C.Port.kOnboard, ARDUINO_I2C_ADDRESS);
 	private static byte[] colorModes = {'r', 'g', 'b', 'p', 't', 'n', 'a', 'o'};
+	public static LEDMode currentMode = LEDMode.eOff;
 	
 	public static enum LEDMode {
 		eRed, eGreen, eBlue, ePink, eTeal, eOff, eRainbow, eBlink;
@@ -22,6 +23,10 @@ public class LEDStrip {
 	 * @param color
 	 */
 	public static void sendColor(LEDMode color) {
-		i2c.writeBulk(new byte[] {colorModes[color.ordinal()]});
+		// Test to make sure color is different than current mode to avoid redundancy
+		if (!color.equals(currentMode)) {
+			i2c.writeBulk(new byte[] {colorModes[color.ordinal()]});
+			currentMode = color;
+		}
 	}
 }
