@@ -23,10 +23,10 @@ public class Robot extends SampleRobot {
     boolean safetyOn;
     
     public Robot() {
-        backLeft = new CANTalon(3);
-        frontLeft = new CANTalon(4);
-        backRight = new CANTalon(5);
-        frontRight = new CANTalon(6);
+        backLeft = new CANTalon(6);
+        frontLeft = new CANTalon(1);
+        backRight = new CANTalon(9);
+        frontRight = new CANTalon(3);
         drivebase = new TankDrive(frontRight, backRight, frontLeft, backLeft, 1.0f);
         leftCannon = new Solenoid(5);
         rightCannon = new Solenoid(6);
