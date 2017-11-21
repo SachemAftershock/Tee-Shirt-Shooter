@@ -45,6 +45,8 @@ public class Robot extends SampleRobot {
     @Override
     public void operatorControl() {
         while (isEnabled() && isOperatorControl()) {
+            drivebase.drive(drivePad);
+            
             // Close solenoids after 1/10 seconds if they're open
             if (leftTimer.get() > 0.1) {
                 leftTimer.stop();
